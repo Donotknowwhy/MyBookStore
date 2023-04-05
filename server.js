@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 var bodyParser = require('body-parser');
 const authorRoute = require("./routes/author")
+const bookRoute = require("./routes/book")
 
 
 dotenv.config();
@@ -21,7 +22,7 @@ app.use(morgan('common'));
 
 app.use("/v1/author", authorRoute);
 
-app.get('/', (req, res) => res.send('hello'))
+app.use("/v1/book", bookRoute);
 
 app.listen(3000, function() {
   console.log('Server listening on port 3000');
