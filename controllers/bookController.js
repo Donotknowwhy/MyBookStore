@@ -1,17 +1,29 @@
-const {Author, Book} = require("../model/model");
+const {Author, Book, Publisher} = require("../model/model");
 
 const bookController = {
     addABook: async (req, res) => {
         try {
-            const newBook = new Book(req.body)
+            if (!req.body.author || !req.body.publisherId) {
+                return res.status(400).json({ message: 'Author or PublisherId is required' });
+              }
+            const newBook = new Book(req.body);
             const savedBook = await newBook.save();
-            if( req.body.author){
+
+            // Add book to author's books array
+            if (req.body.author) {
                 const author = Author.findById(req.body.author);
-                await author.updateOne({$push: {books: savedBook._id}})
+                await author.updateOne({ $push: { books: savedBook._id } });
             }
-            res.status(200).json(savedBook)
+
+            // Add book to publisher's books array
+            if (req.body.publisherId) {
+                const publisher = await Publisher.findById(req.body.publisherId);
+                await publisher.updateOne({ $push: { books: savedBook._id } });
+            }
+
+            res.status(200).json(savedBook);
         } catch (error) {
-            res.status(500).json(error)
+            res.status(500).json(error);
         }
     },
     getAllBooks: async (req, res) => {

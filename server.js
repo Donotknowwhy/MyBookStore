@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 var bodyParser = require('body-parser');
 const authorRoute = require("./routes/author")
 const bookRoute = require("./routes/book")
+const publisherRoute = require("./routes/publisher")
 
 
 dotenv.config();
@@ -23,6 +24,8 @@ app.use(morgan('common'));
 app.use("/v1/author", authorRoute);
 
 app.use("/v1/book", bookRoute);
+
+app.use("/v1/publisher", publisherRoute);
 
 app.listen(3000, function() {
   console.log('Server listening on port 3000');
