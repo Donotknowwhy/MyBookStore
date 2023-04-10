@@ -9,19 +9,19 @@ const authorRoute = require("./routes/author")
 const bookRoute = require("./routes/book")
 const publisherRoute = require("./routes/publisher")
 const userRoute = require("./routes/user")
+const sgMail = require('@sendgrid/mail');
 
 
 dotenv.config();
 mongoose.connect((process.env.MONGODB_URL))
+sgMail.setApiKey((process.env.SENDGRID_API_KEY));
 
 
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(cors());
 app.use(morgan('common'));
 
-
 //routes
-
 app.use("/v1/author", authorRoute);
 
 app.use("/v1/book", bookRoute);
