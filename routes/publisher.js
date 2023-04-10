@@ -1,15 +1,16 @@
-const publisherController = require("../controllers/publisherController");
-
 const router = require('express').Router();
+const publisherController = require("../controllers/publisherController");
+const authMiddleware = require("../middlewares/authMiddleware")
 
-router.post("/", publisherController.createPublisher);
 
-router.get("/", publisherController.getAllPublishers);
+router.post("/",authMiddleware, publisherController.createPublisher);
 
-router.get("/:id", publisherController.getPublisherById);
+router.get("/",authMiddleware, publisherController.getAllPublishers);
 
-router.put("/:id", publisherController.updatePublisherById);
+router.get("/:id",authMiddleware, publisherController.getPublisherById);
 
-router.delete("/:id", publisherController.deletePublisherById);
+router.put("/:id",authMiddleware, publisherController.updatePublisherById);
+
+router.delete("/:id",authMiddleware, publisherController.deletePublisherById);
 
 module.exports = router
