@@ -6,7 +6,7 @@ const sgMail = require('@sendgrid/mail');
 const userController = {
     register: async (req, res) => {
         try {
-            const { email, password } = req.body;
+            const { email, password, role } = req.body;
 
             const existingUser = await User.findOne({ email });
             if (existingUser) {
@@ -14,7 +14,7 @@ const userController = {
             }
 
             const hashedPassword = await bcrypt.hash(password, 12);
-            const newUser = new User({ email, password: hashedPassword });
+            const newUser = new User({ email, password: hashedPassword, role });
 
             await newUser.save();
 
