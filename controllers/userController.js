@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { User } = require("../model/model")
-const sgMail = require('@sendgrid/mail');
 
 const userController = {
     register: async (req, res) => {
@@ -45,27 +44,6 @@ const userController = {
             res.status(500).json({ message: 'Something went wrong' });
         }
     },
-    sendResetPasswordEmail: async (req, res) => {
-        try {
-          const { email } = req.body;
-          const user = await User.findOne({ email });
-          if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-          }
-          const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-          const resetLink = `CLIENT_URL/reset-password/${token}`;
-          const msg = {
-            to: email,
-            from: 'kienlovend@gmail.com',
-            subject: 'Reset your password',
-            text: `Please click the following link to reset your password: ${resetLink}`,
-          };
-          await sgMail.send(msg);
-          res.status(200).json({ message: 'Reset password link sent successfully' });
-        } catch (error) {
-          res.status(500).json({ message: 'Failed to send reset password link', error });
-        }
-      },
 }
 
 module.exports = userController
