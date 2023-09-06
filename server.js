@@ -21,9 +21,12 @@ dotenv.config();
 mongoose.connect((process.env.MONGODB_URL))
 sgMail.setApiKey((process.env.SENDGRID_API_KEY));
 
+const corsOptions = {
+  origin: ['http://localhost:3001', 'https://another-website.com'],
+};
 
 app.use(bodyParser.json({limit: "50mb"}));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(morgan('common'));
 
 //routes
