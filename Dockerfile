@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Mở cổng mà ứng dụng sẽ lắng nghe trên
-EXPOSE 3000
+EXPOSE 4000
 
 # Lệnh để khởi động ứng dụng
 CMD ["node", "server.js"]
